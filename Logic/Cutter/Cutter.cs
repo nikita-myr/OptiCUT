@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using OptiCUT.Objects;
 
-namespace OptiCUT.Cutter;
+namespace OptiCUT.Logic;
 
 public class Cutter
 {
-    public static List<CuttedWhip> Cut(List<Detail> details, Whip whip)
+    public static List<CuttedWhip> Cut(ObservableCollection<Detail> details, Whip whip)
     {
         List<CuttedWhip> result = new List<CuttedWhip>();
 
@@ -128,7 +129,7 @@ public class Cutter
     }
 
 
-    private static List<Detail> SortByLenght(List<Detail> details)
+    private static List<Detail> SortByLenght(ObservableCollection<Detail> details)
     {
         var sortedDetails = details.OrderByDescending(detail => detail.Lenght);
 

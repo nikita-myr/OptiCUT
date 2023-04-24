@@ -1,15 +1,19 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using Aspose.Cells;
 using OptiCUT.Objects;
+using OptiCUT.ViewModels;
 
 namespace OptiCUT.Excel;
 
 public static class Excel
 {
-    private static int _rawOffset = 1;
-    public static void GenerateFrameCutExcel(string fileName = "NewWB", string fileType = ".xlsx", bool makePdf = false)
+    private static int _rawOffset;
+    public static void GenerateFrameCutExcel(ObservableCollection<WhipFieldViewModel> whipFields,
+        string fileName = "NewWB", string fileType = ".xlsx", bool makePdf = false)
     {
+        _rawOffset = 1;
         Workbook workbook = new Workbook();
         
         Worksheet worksheet = workbook.Worksheets[0];
@@ -43,49 +47,58 @@ public static class Excel
         worksheet.Cells["F3"].PutValue("уг 2-°");
         worksheet.Cells["F3"].SetStyle(SetBasicCellStyle(worksheet.Cells["C3"]));
         _rawOffset++;
-        
-        //TODO: брать имя стойки из распила.
-        worksheet.Cells.Merge(3,0,1,13);
-        worksheet.Cells["A" + _rawOffset].PutValue($"Стойка {Program.whip_206.Label}, {Program.whip_206.Color} (хлысь {Program.whip_206.Lenght} мм)");
-        worksheet.Cells["A4"].SetStyle(SetBasicCellStyle(worksheet.Cells["A4"], isBold: true, isColored: true));
-        _rawOffset++;
-        
-        GetDetails(worksheet , Program.frameDetails);
-        
-        worksheet.Cells.Merge(_rawOffset-1,0,1,9);
-        worksheet.Cells["J" + _rawOffset].PutValue("Итого:");
-        worksheet.Cells["K" + _rawOffset].Formula = $"=SUM(K5:K{_rawOffset - 1})";
-        worksheet.Cells["K" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
-        _rawOffset++;
-        
 
+        foreach (var whipField in whipFields)
+        {
+            //TODO: брать имя стойки из распила.
+            worksheet.Cells.Merge(_rawOffset-1,0,1,13);
+            worksheet.Cells["A" + _rawOffset].PutValue($"Стойка {whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
+            worksheet.Cells["A" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true, isColored: true));
+            _rawOffset++;
+            
+            int startRowOffset = _rawOffset;
+        
+            GetDetails(worksheet , whipField.Details);
+            
+            worksheet.Cells.Merge(_rawOffset-1,0,1,9);
+            worksheet.Cells["J" + _rawOffset].PutValue("Итого:");
+            worksheet.Cells["K" + _rawOffset].Formula = $"=SUM(K{startRowOffset}:K{_rawOffset - 1})";
+            worksheet.Cells["K" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
+            _rawOffset++;
+            
+            
+        }
+        
         worksheet.Cells.Merge(_rawOffset-1,0,1,13);
         worksheet.Cells["A" + _rawOffset].PutValue("Каркас. Оптимизация распила");
         worksheet.Cells["A"+_rawOffset].SetStyle(SetFirstHeaderStyle(worksheet.Cells["A" + _rawOffset]));
         _rawOffset++;
+
         
-        worksheet.Cells["K" + _rawOffset].PutValue("ост мм");
-        worksheet.Cells["K" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["K"+_rawOffset]));
+        foreach (var whipField in whipFields)
+        {
+            worksheet.Cells["K" + _rawOffset].PutValue("ост мм");
+            worksheet.Cells["K" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["K"+_rawOffset]));
         
-        worksheet.Cells["L" + _rawOffset].PutValue("кол. хл.");
-        worksheet.Cells["L" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["L"+_rawOffset]));
+            worksheet.Cells["L" + _rawOffset].PutValue("кол. хл.");
+            worksheet.Cells["L" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["L"+_rawOffset]));
         
         
-        worksheet.Cells.Merge(_rawOffset-1,0,1,10);
-        worksheet.Cells["A" + _rawOffset].PutValue($"Стойка {Program.whip_206.Label}, {Program.whip_206.Color} (хлысь {Program.whip_206.Lenght} мм)");
-        worksheet.Cells["A" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["A"+_rawOffset], isBold: true));
-        _rawOffset++;
+            worksheet.Cells.Merge(_rawOffset-1,0,1,10);
+            worksheet.Cells["A" + _rawOffset].PutValue($"Стойка {whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
+            worksheet.Cells["A" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["A"+_rawOffset], isBold: true));
+            _rawOffset++;
 
 
-        GetWhipsFromCutter(_rawOffset, worksheet, Program.frameDetails);
+            GetWhipsFromCutter(_rawOffset, worksheet, whipField);
+            
+        }
         
         
         
-        
-
         if (makePdf) workbook.Save(GetSaveDirectory() + fileName + ".pdf");
         workbook.Save(GetSaveDirectory() + fileName + fileType);
-        
+
     }
 
     private static Style SetBasicCellStyle(Cell cell, int fontSize = 11, bool isBold = false, bool isColored = false)
@@ -116,12 +129,13 @@ public static class Excel
         return headerStyleFirst;
     }
 
-    private static void GetDetails(Worksheet worksheet, List<Detail> details)
+    private static void GetDetails(Worksheet worksheet, ObservableCollection<Detail> details)
     {
         string detailLenghtColumn = "C";
         string detailAmountColumn = "K";
         string firstDegreesValueColumn = "E";
         string secondDegreesValueColumn = "F";
+        
 
         for (int i = 0; i < details.Count; i++)
         {
@@ -144,7 +158,7 @@ public static class Excel
         }
     }
 
-    private static void GetWhipsFromCutter(int rawOffset, Worksheet worksheet, List<Detail> details)
+    private static void GetWhipsFromCutter(int rawOffset, Worksheet worksheet, WhipFieldViewModel whipField)
     {
         List<string> columnIndex = new List<string>
         {
@@ -155,7 +169,7 @@ public static class Excel
 
         int startRawOffset = rawOffset;
 
-        List<CuttedWhip> cutResult = Cutter.Cut(Program.frameDetails, Program.whip_206);
+        List<CuttedWhip> cutResult = Logic.Cutter.Cut(whipField.Details, whipField.Whip);
 
         foreach (CuttedWhip whip in cutResult)
         {
@@ -198,11 +212,12 @@ public static class Excel
         worksheet.Cells["L" + rawOffset].Formula = $"=SUM(L{startRawOffset}:L{rawOffset - 1})";
         worksheet.Cells["L" + rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["L" + rawOffset]));
         rawOffset++;
+        _rawOffset = rawOffset;
     }
     
     private static string GetSaveDirectory()
     {
-        string saveDirectory = "/Users/nikita/Dev/C#_projects/Tester/Tester/ExcelStorage/";
+        string saveDirectory = "/Users/nikita/Dev/C#_projects/OptiCUT/ExcelDirectory";
         
         return saveDirectory;
     }

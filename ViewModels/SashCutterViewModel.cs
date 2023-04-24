@@ -1,13 +1,12 @@
 using System.Collections.ObjectModel;
-using DynamicData;
 
 namespace OptiCUT.ViewModels;
 
-public class FrameCutterViewModel: ViewModelBase
+public class SashCutterViewModel: ViewModelBase
 {
     private ObservableCollection<WhipFieldViewModel> WhipFieldsViewModel { get; set; }
     
-    public FrameCutterViewModel()
+    public SashCutterViewModel()
     {
         WhipFieldsViewModel = new ObservableCollection<WhipFieldViewModel>{new WhipFieldViewModel()};
 
