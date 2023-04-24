@@ -32,19 +32,7 @@
         <Grid>
             <TabControl>
                 <TabItem Header="Каркас">
-                    <views:FrameCutter/>
-                </TabItem>
-                <TabItem Header="Штапики">
-                    <views:SashCutter/>
-                </TabItem>
-                <TabItem Header="Створки и ВР">
-                    <views:WindowCutter/>
-                </TabItem>
-                <TabItem Header="Ограждения">
-                    <views:BorderCutter/>
-                </TabItem>
-                <TabItem Header="Настройки">
-                    <views:Settings/>
+                    <views:FrameCutView/>
                 </TabItem>
             </TabControl>
         </Grid>

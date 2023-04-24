@@ -2,8 +2,8 @@ namespace OptiCUT.Objects;
 
 public class Detail
 {
-    public int Lenght { get; private set; }
-    public int Amount { get; private set; }
+    public int Lenght { get; set; }
+    public int Amount { get; set; }
 
     public Detail()
     {

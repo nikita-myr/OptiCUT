@@ -10,6 +10,9 @@ public class Whip
     public int SawWidth { get; set; }
     public int MinLenghtRemain { get; set; }
 
+    public Whip(){}
+
+
     public Whip(string label, string color, int lenght, int sawWidth, int minLenghtRemain)
     {
         Label = label;
@@ -26,6 +29,7 @@ public class CuttedWhip : Whip
     public List<int> Details { get; private set; }
     public int LenghtRemains { get; private set; }
     public int Amount { get; private set; }
+    
 
     public CuttedWhip(string label, string color, int lenght, int sawWidth, int minLenghtRemain) : base(label, color, lenght, sawWidth, minLenghtRemain)
     {

@@ -5,7 +5,7 @@ using OptiCUT.Objects;
 
 namespace OptiCUT.Excel;
 
-/*public static class Excel
+public static class Excel
 {
     private static int _rawOffset = 1;
     public static void GenerateFrameCutExcel(string fileName = "NewWB", string fileType = ".xlsx", bool makePdf = false)
@@ -206,4 +206,4 @@ namespace OptiCUT.Excel;
         
         return saveDirectory;
     }
-}*/
+}
