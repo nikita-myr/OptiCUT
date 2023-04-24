@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:OptiCUT.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="OptiCUT.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/Logo/logo-color.png"
         Title="OptiCUT"
 
         TransparencyLevelHint="AcrylicBlur"
@@ -36,6 +36,15 @@
                 </TabItem>
                 <TabItem Header="Штапики">
                     <views:SashCutterView/>
+                </TabItem>
+                <TabItem Header="Створки и ВР">
+                    <views:WindowsAndVentilationCutView/>
+                </TabItem>
+                <TabItem Header="Ограждения">
+                    <views:BorderCutView/>
+                </TabItem>
+                <TabItem Header="Настройки">
+                    <views:SettingsView/>
                 </TabItem>
             </TabControl>
         </Grid>

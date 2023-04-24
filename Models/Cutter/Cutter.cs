@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using OptiCUT.Objects;
 
-namespace OptiCUT.Logic;
+namespace OptiCUT;
 
 public class Cutter
 {

@@ -34,7 +34,7 @@
                                 </WrapPanel>
                                 <WrapPanel>
                                     <Label Content="Длинна" Width="100" HorizontalContentAlignment="Center"></Label>
-                                    <Label Content="Количество" Width="100" HorizontalContentAlignment="Center"></Label>
+                                    <Label Content="Колличество" Width="100" HorizontalContentAlignment="Center"></Label>
                                 </WrapPanel>
                                 <ItemsControl Items="{Binding Details}">
                                     <ItemsControl.ItemTemplate>

@@ -12,7 +12,7 @@ public class WhipFieldViewModel : ViewModelBase
     public WhipFieldViewModel()
     {
         Whip = new Whip();
-        Details = new ObservableCollection<Detail> {new Detail()};
+        Details = new ObservableCollection<Detail>();
     }
 
     public void AddDetailButton()
