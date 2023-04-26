@@ -14,7 +14,20 @@
     
     <StackPanel>
         <WrapPanel>
-            <Button Command="{Binding GenerateCutExcel}" Width="100">РАСПИЛ</Button>
+            <Label Content="Имя файла:" Width="100" VerticalAlignment="Center"></Label>
+            <TextBox Text="{Binding FileName}" Width="450"></TextBox>
+        </WrapPanel>
+        <WrapPanel>
+            <Label Content="Сгенерировать PDF?" Width="155" VerticalAlignment="Center"></Label>
+            <CheckBox IsChecked="{Binding GeneratePdf}"></CheckBox>
+        </WrapPanel>
+        <WrapPanel>
+            <Label Content="Сохранить в: " Width="100" VerticalAlignment="Center"></Label>
+            <TextBox Text="{Binding SaveDir}" Width="450"></TextBox>
+            <Button Command="{Binding SelectSaveDirectoryButton}">Указать путь</Button>
+        </WrapPanel>
+        <WrapPanel HorizontalAlignment="Center">
+            <Button Command="{Binding GenerateCutExcel}" Width="75" HorizontalAlignment="Center">РАСПИЛ</Button>
         </WrapPanel>
     </StackPanel>
 </UserControl>

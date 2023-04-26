@@ -9,26 +9,29 @@ namespace OptiCUT;
 
 public static class Excel
 {
-    private static int _rawOffset;
+    /// <summary>
+    /// Generate Excel file with cut data 
+    /// </summary>
     
+    
+    private static int _rawOffset;
 
-    public static void GenerateExcelFile(string fileName = "CutResult", string fileType = ".xlsx", bool makePdf = false)
+    public static void GenerateExcelFile(string? saveDirectory, string fileName = "CutResult", string fileType = ".xlsx", bool makePdf = false)
     {
         Workbook workbook = new Workbook();
 
         ObservableCollection<WhipFieldViewModel> frameWhips = GetFrameWhips();
         ObservableCollection<WhipFieldViewModel> sashWhips = GetSashWhips();
-        
-        
+
+        //Check is data exist, if true add to worksheet and data to file 
         if(frameWhips.Count > 0) GenerateFrameCutSheet(workbook, frameWhips);
         if(sashWhips.Count > 0) GenerateSashCutSheet(workbook, sashWhips);
         
         
 
-        
-        
-        if (makePdf) workbook.Save(GetSaveDirectory() + fileName + ".pdf");
-        workbook.Save(GetSaveDirectory() + fileName + fileType);
+        //TODO: PDF looks really bad, need to fix printBorders.
+        if (makePdf) workbook.Save(saveDirectory + fileName + ".pdf");
+        workbook.Save(saveDirectory + fileName + fileType);
         
     }
 
@@ -91,11 +94,18 @@ public static class Excel
             
         }
         
+        worksheet.Cells.Merge(_rawOffset-1,0,1,13);
+        worksheet.Cells["A" + _rawOffset].PutValue($"Соед. стоечный ВСК-213, без)");
+        worksheet.Cells["A" + _rawOffset].SetStyle(SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true, isColored: true));
+        _rawOffset++;
         
         
         
         
         
+        
+        
+        //Header
         worksheet.Cells.Merge(_rawOffset-1,0,1,13);
         worksheet.Cells["A" + _rawOffset].PutValue("Каркас. Оптимизация распила");
         worksheet.Cells["A"+_rawOffset].SetStyle(SetFirstHeaderStyle(worksheet.Cells["A" + _rawOffset]));
@@ -121,11 +131,6 @@ public static class Excel
             GetWhipsFromCutter(_rawOffset, worksheet, whipField);
             
         }
-        
-        
-        
-
-
     }
 
     private static void GenerateSashCutSheet(Workbook workbook, ObservableCollection<WhipFieldViewModel> whipFields)
@@ -187,11 +192,12 @@ public static class Excel
             
         }
         
+        
+        
         worksheet.Cells.Merge(_rawOffset-1,0,1,13);
         worksheet.Cells["A" + _rawOffset].PutValue("Штапики. Оптимизация распила");
         worksheet.Cells["A"+_rawOffset].SetStyle(SetFirstHeaderStyle(worksheet.Cells["A" + _rawOffset]));
         _rawOffset++;
-
         
         //Writing up cutter result
         foreach (var whipField in whipFields)
@@ -343,10 +349,5 @@ public static class Excel
         return result;
     } 
     
-    private static string GetSaveDirectory()
-    {
-        string saveDirectory = "/Users/nikita/Dev/C#_projects/OptiCUT/ExcelDirectory";
-        
-        return saveDirectory;
-    }
+    
 }
