@@ -36,7 +36,7 @@ public class SettingsViewModel: ViewModelBase
     private void GenerateCutExcel()
     {
         Console.WriteLine(SaveDir);
-        if (SaveDir != "") Excel.GenerateExcelFile(SaveDir, FileName, makePdf: GeneratePdf);
+        if (SaveDir != "") Excel.ExcelGenerator.GenerateExcelFile(SaveDir, FileName, makePdf: GeneratePdf);
         
         //TODO: Show warning "Empty save path!" 
     }

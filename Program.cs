@@ -2,7 +2,7 @@
 using Avalonia.ReactiveUI;
 using System;
 
-namespace OptiCUT;
+namespace OptiCUT.Excel;
 
 class Program
 {

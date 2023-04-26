@@ -1,4 +1,4 @@
-namespace OptiCUT.Objects;
+namespace OptiCUT.Excel.Objects;
 
 public class Detail
 {

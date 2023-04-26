@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OptiCUT.Objects;
+namespace OptiCUT.Excel.Objects;
 
 public class Whip
 {

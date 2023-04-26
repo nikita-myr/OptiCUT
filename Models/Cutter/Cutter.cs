@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using OptiCUT.Objects;
+using OptiCUT.Excel.Objects;
 
-namespace OptiCUT;
+namespace OptiCUT.Excel;
 
 public class Cutter
 {
