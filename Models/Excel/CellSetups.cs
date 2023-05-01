@@ -1,8 +1,7 @@
 using Aspose.Cells;
-using Avalonia.Media;
 using Color = System.Drawing.Color;
 
-namespace OptiCUT.Excel;
+namespace OptiCUT.Models.Excel;
 
 public class CellSetups
 {

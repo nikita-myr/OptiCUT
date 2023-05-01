@@ -14,7 +14,7 @@
     
     <ScrollViewer>
         <StackPanel>
-            <ItemsControl Items="{Binding WhipFieldsViewModel}">
+            <ItemsControl Items="{Binding WhipFields}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -61,9 +61,11 @@
                 <Button Command="{Binding RemoveWhipFieldButton}">Удалить позицию</Button>
             </WrapPanel>
             <WrapPanel>
-                <Button Command="{Binding Cut}">Распилить!</Button>
+                <CheckBox IsChecked="{Binding IsNeedVsk213}" Width="200">Поле для ВСК-213</CheckBox>
+            </WrapPanel>
+            <WrapPanel>
+                <CheckBox IsChecked="{Binding IsNeedVsk214}" Width="200">Поле для ВСК-214</CheckBox>
             </WrapPanel>
         </StackPanel>
     </ScrollViewer>
-    
 </UserControl>

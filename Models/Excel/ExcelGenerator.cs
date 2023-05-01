@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using Aspose.Cells;
-using OptiCUT.Excel.Objects;
+using OptiCUT.Excel;
 using OptiCUT.ViewModels;
 
-namespace OptiCUT.Excel;
+namespace OptiCUT.Models.Excel;
 
 public static class ExcelGenerator
 {
@@ -20,23 +21,24 @@ public static class ExcelGenerator
     {
         Workbook workbook = new Workbook();
 
-        ObservableCollection<WhipFieldViewModel> frameWhips = GetFrameWhips();
-        ObservableCollection<WhipFieldViewModel> sashWhips = GetSashWhips();
+        ObservableCollection<WhipField> frameWhips = GetFrameWhips();
+        ObservableCollection<WhipField> sashWhips = GetSashWhips();
 
         //Check is data exist, if true add to worksheet and data to file 
-        if (frameWhips.Count > 0) GenerateFrameCutSheet(workbook, frameWhips);
-        if (sashWhips.Count > 0) GenerateSashCutSheet(workbook, sashWhips);
-
-
-
-        //TODO: PDF looks really bad, need to fix printBorders.
-
-        if (makePdf) workbook.Save(saveDirectory + fileName + ".pdf");
+        if (frameWhips.Count != 0) GenerateFrameCutSheet(workbook, frameWhips,
+            FrameCutterViewModel.isNeedVsk213, FrameCutterViewModel.isNeedVsk214);
+        if (sashWhips.Count != 0) GenerateSashCutSheet(workbook, sashWhips);
+        
+        
+        workbook.CalculateFormula();
+        
         workbook.Save(saveDirectory + fileName + fileType);
+        if (makePdf) workbook.Save(saveDirectory + fileName + ".pdf");
 
     }
 
-    private static void GenerateFrameCutSheet(Workbook workbook, ObservableCollection<WhipFieldViewModel> whipFields)
+    private static void GenerateFrameCutSheet(Workbook workbook, ObservableCollection<WhipField> whipFields , 
+        bool isNeedVsk213 = false, bool isNeedVsk214 = false)
     {
         _rawOffset = 1;
 
@@ -77,7 +79,7 @@ public static class ExcelGenerator
         {
             worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 13);
             worksheet.Cells["A" + _rawOffset]
-                .PutValue($"Стойка {whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
+                .PutValue($"{whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
             worksheet.Cells["A" + _rawOffset]
                 .SetStyle(
                     CellSetups.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true, isColored: true));
@@ -95,17 +97,11 @@ public static class ExcelGenerator
 
 
         }
-
-        worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 13);
-        worksheet.Cells["A" + _rawOffset].PutValue($"Соед. стоечный ВСК-213, без)");
-        worksheet.Cells["A" + _rawOffset]
-            .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true, isColored: true));
-        _rawOffset++;
-
-
-        //TODO: Add vsk-213, vsk-214, if checkbox set Ture, add them to excel.
-        //WriteVskFields(bool isNeedVsk)
-
+        
+        //Adding additional field if needed
+        //TODO: make fields automatically counted. 
+        if (isNeedVsk213) WriteVsk213Fields(worksheet);
+        if (isNeedVsk214) WriteVsk214Fields(worksheet);
 
         //Header
         worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 13);
@@ -126,7 +122,7 @@ public static class ExcelGenerator
 
             worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 10);
             worksheet.Cells["A" + _rawOffset]
-                .PutValue($"Стойка {whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
+                .PutValue($"{whipField.Whip.Label}, {whipField.Whip.Color} (хлыст {whipField.Whip.Lenght} мм)");
             worksheet.Cells["A" + _rawOffset]
                 .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true));
             _rawOffset++;
@@ -135,15 +131,93 @@ public static class ExcelGenerator
             GetWhipsFromCutter(_rawOffset, worksheet, whipField);
 
         }
+
+        DrawBorders(workbook, worksheet, _rawOffset);
+
+        worksheet.PageSetup.FitToPagesWide = 1;
+        worksheet.PageSetup.PrintArea = $"A1:M{_rawOffset}";
+    }
+    
+    private static void WriteVsk213Fields(Worksheet worksheet)
+    {
+        worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 13);
+        worksheet.Cells["A" + _rawOffset]
+            .PutValue($"Соед. стоечный ВС-К-213, без");
+        worksheet.Cells["A" + _rawOffset]
+            .SetStyle(
+                CellSetups.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true, isColored: true));
+        _rawOffset++;
+
+        int startRowOffset = _rawOffset;
+
+        worksheet.Cells["C" + _rawOffset].PutValue(360);
+        worksheet.Cells["C" + _rawOffset].SetStyle(
+            CellSetups.SetBasicCellStyle(worksheet.Cells["C" + _rawOffset]));
+
+        worksheet.Cells["K" + _rawOffset].PutValue("??");
+        worksheet.Cells["K" + _rawOffset].SetStyle(
+            CellSetups.SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
+
+        worksheet.Cells["E" + _rawOffset].PutValue("90°");
+        worksheet.Cells["E" + _rawOffset]
+            .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["E" + _rawOffset]));
+
+        worksheet.Cells["F" + _rawOffset].PutValue("90°");
+        worksheet.Cells["F" + _rawOffset]
+            .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["F" + _rawOffset]));
+        _rawOffset++;
+
+        worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 9);
+        worksheet.Cells["J" + _rawOffset].PutValue("Итого:");
+        worksheet.Cells["K" + _rawOffset].Formula = $"=SUM(K{startRowOffset}:K{_rawOffset - 1})";
+        worksheet.Cells["K" + _rawOffset].SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
+        _rawOffset++;
+        
+        
     }
 
-    private static void GenerateSashCutSheet(Workbook workbook, ObservableCollection<WhipFieldViewModel> whipFields)
+    private static void WriteVsk214Fields(Worksheet worksheet)
+    {
+        worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 13);
+        worksheet.Cells["A" + _rawOffset]
+            .PutValue($"Т-cоед. 20мм ВС-К-214, без");
+        worksheet.Cells["A" + _rawOffset]
+            .SetStyle(
+                CellSetups.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true, isColored: true));
+        _rawOffset++;
+
+        int startRowOffset = _rawOffset;
+
+        worksheet.Cells["C" + _rawOffset].PutValue(20);
+        worksheet.Cells["C" + _rawOffset].SetStyle(
+            CellSetups.SetBasicCellStyle(worksheet.Cells["C" + _rawOffset]));
+
+        worksheet.Cells["K" + _rawOffset].PutValue("??");
+        worksheet.Cells["K" + _rawOffset].SetStyle(
+            CellSetups.SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
+
+        worksheet.Cells["E" + _rawOffset].PutValue("90°");
+        worksheet.Cells["E" + _rawOffset]
+            .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["E" + _rawOffset]));
+
+        worksheet.Cells["F" + _rawOffset].PutValue("90°");
+        worksheet.Cells["F" + _rawOffset]
+            .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["F" + _rawOffset]));
+        _rawOffset++;
+
+        worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 9);
+        worksheet.Cells["J" + _rawOffset].PutValue("Итого:");
+        worksheet.Cells["K" + _rawOffset].Formula = $"=SUM(K{startRowOffset}:K{_rawOffset - 1})";
+        worksheet.Cells["K" + _rawOffset].SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
+        _rawOffset++;
+        
+    }
+    
+    private static void GenerateSashCutSheet(Workbook workbook, ObservableCollection<WhipField> whipFields)
     {
         _rawOffset = 1;
-
-        int i = workbook.Worksheets.Add();
-
-        Worksheet worksheet = workbook.Worksheets[i];
+        
+        Worksheet worksheet = workbook.Worksheets[workbook.Worksheets.Add()];
         worksheet.Name = "Штапики";
 
         worksheet.Cells.Merge(0, 0, 1, 13);
@@ -180,7 +254,7 @@ public static class ExcelGenerator
         {
             worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 13);
             worksheet.Cells["A" + _rawOffset]
-                .PutValue($"Штапик {whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
+                .PutValue($"{whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
             worksheet.Cells["A" + _rawOffset]
                 .SetStyle(
                     CellSetups.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true, isColored: true));
@@ -218,7 +292,7 @@ public static class ExcelGenerator
 
             worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 10);
             worksheet.Cells["A" + _rawOffset]
-                .PutValue($"Штапик {whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
+                .PutValue($"{whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
             worksheet.Cells["A" + _rawOffset]
                 .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true));
             _rawOffset++;
@@ -227,42 +301,52 @@ public static class ExcelGenerator
             GetWhipsFromCutter(_rawOffset, worksheet, whipField);
 
         }
-
+        
+        DrawBorders(workbook, worksheet, _rawOffset);
+        
+        worksheet.PageSetup.FitToPagesWide = 1;
+        worksheet.PageSetup.PrintArea = $"A1:M{_rawOffset}";
     }
 
-
+    private static void DrawBorders(Workbook workbook, Worksheet worksheet, int rawOffset)
+    {
+        CellsColor cellsColor = workbook.CreateCellsColor();
+        
+        Range range = worksheet.Cells.CreateRange(0, 0, rawOffset, 13);
+        
+        range.SetInsideBorders(BorderType.Vertical, CellBorderType.Thin, cellsColor);
+        range.SetInsideBorders(BorderType.Horizontal, CellBorderType.Thin, cellsColor);
+        range.SetOutlineBorder(BorderType.TopBorder, CellBorderType.Thin, cellsColor);
+        range.SetOutlineBorder(BorderType.BottomBorder, CellBorderType.Thin, cellsColor);
+        range.SetOutlineBorder(BorderType.LeftBorder, CellBorderType.Thin, cellsColor);
+        range.SetOutlineBorder(BorderType.RightBorder, CellBorderType.Thin, cellsColor);
+        
+    } 
+    
     private static void GetDetails(Worksheet worksheet, ObservableCollection<Detail> details)
     {
-        string detailLenghtColumn = "C";
-        string detailAmountColumn = "K";
-        string firstDegreesValueColumn = "E";
-        string secondDegreesValueColumn = "F";
-
-
         for (int i = 0; i < details.Count; i++)
         {
-            string currentRaw = _rawOffset.ToString();
+            worksheet.Cells["C" + _rawOffset].PutValue(details[i].Lenght);
+            worksheet.Cells["C" + _rawOffset].SetStyle(
+                CellSetups.SetBasicCellStyle(worksheet.Cells["C" + _rawOffset]));
 
-            worksheet.Cells[detailLenghtColumn + currentRaw].PutValue(details[i].Lenght);
-            worksheet.Cells[detailLenghtColumn + currentRaw].SetStyle(
-                CellSetups.SetBasicCellStyle(worksheet.Cells[detailLenghtColumn + _rawOffset]));
+            worksheet.Cells["K" + _rawOffset].PutValue(details[i].Amount);
+            worksheet.Cells["K" + _rawOffset].SetStyle(
+                CellSetups.SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
 
-            worksheet.Cells[detailAmountColumn + currentRaw].PutValue(details[i].Amount);
-            worksheet.Cells[detailAmountColumn + currentRaw].SetStyle(
-                CellSetups.SetBasicCellStyle(worksheet.Cells[detailAmountColumn + _rawOffset]));
+            worksheet.Cells["E" + _rawOffset].PutValue("90°");
+            worksheet.Cells["E" + _rawOffset]
+                .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["E" + _rawOffset]));
 
-            worksheet.Cells[firstDegreesValueColumn + currentRaw].PutValue("90°");
-            worksheet.Cells[firstDegreesValueColumn + currentRaw]
-                .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells[firstDegreesValueColumn + currentRaw]));
-
-            worksheet.Cells[secondDegreesValueColumn + currentRaw].PutValue("90°");
-            worksheet.Cells[secondDegreesValueColumn + currentRaw]
-                .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells[secondDegreesValueColumn + currentRaw]));
+            worksheet.Cells["F" + _rawOffset].PutValue("90°");
+            worksheet.Cells["F" + _rawOffset]
+                .SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["F" + _rawOffset]));
             _rawOffset++;
         }
     }
 
-    private static void GetWhipsFromCutter(int rawOffset, Worksheet worksheet, WhipFieldViewModel whipField)
+    private static void GetWhipsFromCutter(int rawOffset, Worksheet worksheet, WhipField whipField)
     {
         List<string> columnIndex = new List<string>
         {
@@ -314,20 +398,20 @@ public static class ExcelGenerator
         worksheet.Cells.Merge(rawOffset - 1, 0, 1, 10);
         worksheet.Cells["K" + rawOffset].PutValue("Итого:");
         worksheet.Cells["L" + rawOffset].Formula = $"=SUM(L{startRawOffset}:L{rawOffset - 1})";
-        worksheet.Cells["L" + rawOffset].SetStyle(CellSetups.SetBasicCellStyle(worksheet.Cells["L" + rawOffset]));
+        worksheet.Cells["L" + rawOffset].SetStyle(style: CellSetups.SetBasicCellStyle(worksheet.Cells["L" + rawOffset]));
         rawOffset++;
         _rawOffset = rawOffset;
     }
 
-    private static ObservableCollection<WhipFieldViewModel> GetFrameWhips()
+    private static ObservableCollection<WhipField> GetFrameWhips()
     {
-        ObservableCollection<WhipFieldViewModel> result = FrameCutterViewModel.WhipFieldsViewModel;
+        ObservableCollection<WhipField> result = FrameCutterViewModel.WhipFields;
         return result;
     }
 
-    private static ObservableCollection<WhipFieldViewModel> GetSashWhips()
+    private static ObservableCollection<WhipField> GetSashWhips()
     {
-        ObservableCollection<WhipFieldViewModel> result = SashCutterViewModel.WhipFieldsViewModel;
+        ObservableCollection<WhipField> result = SashCutterViewModel.WhipFields;
         return result;
     }
 }

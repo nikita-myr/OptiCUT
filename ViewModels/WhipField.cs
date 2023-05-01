@@ -1,14 +1,14 @@
 using System.Collections.ObjectModel;
-using OptiCUT.Excel.Objects;
+using OptiCUT.Models;
 
 namespace OptiCUT.ViewModels;
 
-public class WhipFieldViewModel : ViewModelBase
+public class WhipField : ViewModelBase
 {
     public Whip Whip { get; set; }
     public ObservableCollection<Detail> Details { get; set; }
 
-    public WhipFieldViewModel()
+    public WhipField()
     {
         Whip = new Whip();
         Details = new ObservableCollection<Detail>();

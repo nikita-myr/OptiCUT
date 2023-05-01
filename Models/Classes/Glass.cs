@@ -1,4 +1,4 @@
-namespace OptiCUT.Excel.Objects;
+namespace OptiCUT.Models;
 
 public class Glass
 {

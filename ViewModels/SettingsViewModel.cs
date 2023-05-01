@@ -28,15 +28,14 @@ public class SettingsViewModel: ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _generatePdf, value);
     }
     
-    
     public SettingsViewModel()
     {
+        
     }
 
     private void GenerateCutExcel()
     {
-        Console.WriteLine(SaveDir);
-        if (SaveDir != "") Excel.ExcelGenerator.GenerateExcelFile(SaveDir, FileName, makePdf: GeneratePdf);
+        if (SaveDir != "") Models.Excel.ExcelGenerator.GenerateExcelFile(SaveDir, FileName, makePdf: GeneratePdf);
         
         //TODO: Show warning "Empty save path!" 
     }
@@ -48,7 +47,6 @@ public class SettingsViewModel: ViewModelBase
         if (result != null)
         {
             SaveDir = result + "/";
-            Console.WriteLine(result);
         }
     }
     

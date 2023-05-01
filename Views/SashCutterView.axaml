@@ -14,7 +14,7 @@
     
     <ScrollViewer>
         <StackPanel>
-            <ItemsControl Items="{Binding WhipFieldsViewModel}">
+            <ItemsControl Items="{Binding WhipFields}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -59,9 +59,6 @@
             <WrapPanel>
                 <Button Command="{Binding AddWhipFieldButton}">Добавить позицию</Button>
                 <Button Command="{Binding RemoveWhipFieldButton}">Удалить позицию</Button>
-            </WrapPanel>
-            <WrapPanel>
-                <Button Command="{Binding Cut}">Распилить!</Button>
             </WrapPanel>
         </StackPanel>
     </ScrollViewer>
