@@ -14,7 +14,7 @@
     
     <ScrollViewer>
         <StackPanel>
-            <ItemsControl Items="{Binding WhipFields}">
+            <ItemsControl Items="{Binding PositionFields}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -26,17 +26,17 @@
                                     <Label Content="Минимильный остаток" Width="170" HorizontalContentAlignment="Center"></Label>
                                 </WrapPanel>
                                 <WrapPanel>
-                                    <TextBox Text="{Binding Whip.Label}" Width="70"></TextBox>
-                                    <TextBox Text="{Binding Whip.Color}" Width="70"></TextBox>
-                                    <TextBox Text="{Binding Whip.Lenght}" Width="120"></TextBox>
-                                    <TextBox Text="{Binding Whip.SawWidth}" Width="100"></TextBox>
-                                    <TextBox Text="{Binding Whip.MinLenghtRemain}" Width="170"></TextBox>
+                                    <TextBox Text="{Binding WhipField.Label}" Width="70"></TextBox>
+                                    <TextBox Text="{Binding WhipField.Color}" Width="70"></TextBox>
+                                    <TextBox Text="{Binding WhipField.Lenght}" Width="120"></TextBox>
+                                    <TextBox Text="{Binding WhipField.SawWidth}" Width="100"></TextBox>
+                                    <TextBox Text="{Binding WhipField.MinLenghtRemain}" Width="170"></TextBox>
                                 </WrapPanel>
                                 <WrapPanel>
                                     <Label Content="Длинна" Width="100" HorizontalContentAlignment="Center"></Label>
                                     <Label Content="Колличество" Width="100" HorizontalContentAlignment="Center"></Label>
                                 </WrapPanel>
-                                <ItemsControl Items="{Binding Details}">
+                                <ItemsControl Items="{Binding DetailsField}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel>

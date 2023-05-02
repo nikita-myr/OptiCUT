@@ -11,7 +11,14 @@ public class Ventilation
     public int Amount { get; set; }
     public string Color { get; set; }
 
-    public Ventilation() { }
+    public Ventilation(VentilationField ventilationField)
+    {
+        Label = ventilationField.Label;
+        Width = ventilationField.Width;
+        Height = ventilationField.Height;
+        Amount = ventilationField.Amount;
+        Color = ventilationField.Color;
+    }
 
     public Ventilation(string label, int width, int height, int amount, string color)
     {

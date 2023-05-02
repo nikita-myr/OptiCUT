@@ -1,6 +1,6 @@
 namespace OptiCUT.ViewModels;
 
-public class PositionField
+public class GlassField
 {
     
 }

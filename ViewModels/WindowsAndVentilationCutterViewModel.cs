@@ -2,40 +2,44 @@ using System;
 using System.Collections.ObjectModel;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using OptiCUT.Models;
+using ListEx = DynamicData.ListEx;
 
 namespace OptiCUT.ViewModels;
 
 public class WindowsAndVentilationCutterViewModel: ViewModelBase
 {
-    public static ObservableCollection<Window> Windows { get; set; }
-    public static ObservableCollection<Ventilation> Ventilations { get; set; }
+    public static ObservableCollection<WindowField> WindowsFields { get; set; }
+    public static ObservableCollection<VentilationField> VentilationsFields { get; set; }
+
+    public static WhipField WhipField { get; set; }
 
 
     public WindowsAndVentilationCutterViewModel()
     {
-        Windows = new ObservableCollection<Window>();
-        Ventilations = new ObservableCollection<Ventilation>();
+        WindowsFields = new ObservableCollection<WindowField>();
+        VentilationsFields = new ObservableCollection<VentilationField>();
+        WhipField = new WhipField();
     }
 
     
     private void AddVentilationButton()
     {
-        Ventilations.Add(new Ventilation());
+        VentilationsFields.Add(new VentilationField());
     }
 
     private void RemoveVentilationButton()
     {
-        if (Ventilations.Count > 0) Ventilations.Remove(Ventilations[^1]);
+        if (VentilationsFields.Count > 0) VentilationsFields.Remove(VentilationsFields[^1]);
     }
 
     private void AddWindowButton()
     {
-        Windows.Add(new Window("ОК-1", 0,0, 0, " ", " ", false, " ", 5));
+        WindowsFields.Add(new WindowField());
     }
 
     private void RemoveWindowButton()
     {
-        if(Windows.Count > 0) Windows.Remove(Windows[^1]);
+        if(WindowsFields.Count > 0) WindowsFields.Remove(WindowsFields[^1]);
     }
     
 }

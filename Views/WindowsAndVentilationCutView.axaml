@@ -16,7 +16,7 @@
     
     <ScrollViewer>
         <StackPanel>
-            <ItemsControl Items="{Binding Ventilations}">
+            <ItemsControl Items="{Binding VentilationsFields}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -42,7 +42,7 @@
                 <Button Command="{Binding AddVentilationButton}">Добавить вент. решетку</Button>
                 <Button Command="{Binding RemoveVentilationButton}">Удалить вент. решетку</Button>
             </WrapPanel>
-            <ItemsControl Items="{Binding Windows}">
+            <ItemsControl Items="{Binding WindowsFields}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

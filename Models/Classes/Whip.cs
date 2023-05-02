@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using OptiCUT.ViewModels;
 
 namespace OptiCUT.Models;
 
@@ -10,7 +11,23 @@ public class Whip
     public int SawWidth { get; set; }
     public int MinLenghtRemain { get; set; }
 
-    public Whip(){}
+    public Whip(WhipField whipField)
+    {
+        Label = whipField.Label;
+        Color = whipField.Color;
+        Lenght = whipField.Lenght;
+        SawWidth = whipField.SawWidth;
+        MinLenghtRemain = whipField.MinLenghtRemain;
+    }
+
+    public Whip(Whip whip)
+    {
+        Label = whip.Label;
+        Color = whip.Color;
+        Lenght = whip.Lenght;
+        SawWidth = whip.SawWidth;
+        MinLenghtRemain = whip.MinLenghtRemain;
+    }
 
     public Whip(string label, string color, int lenght, int sawWidth, int minLenghtRemain)
     {
@@ -20,6 +37,7 @@ public class Whip
         SawWidth = sawWidth;
         MinLenghtRemain = minLenghtRemain;
     }
+    
 }
 
 

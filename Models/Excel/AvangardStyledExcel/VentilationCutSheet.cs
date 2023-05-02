@@ -5,7 +5,7 @@ using OptiCUT.Excel;
 
 namespace OptiCUT.Models.Excel.AvangardStyledExcel;
 
-public class WindowsCutSheet
+public class VentilationCutSheet
 {
     private static int _rawOffset;
 
@@ -14,11 +14,11 @@ public class WindowsCutSheet
         _rawOffset = 1;
 
         Worksheet worksheet = workbook.Worksheets[workbook.Worksheets.Add()];
-        worksheet.Name = "Створки";
+        worksheet.Name = "ВР";
 
         worksheet.Cells.Merge(0, 0, 1, 13);
         Cell headerCell = worksheet.Cells["A1"];
-        worksheet.Cells["A1"].PutValue("Створки");
+        worksheet.Cells["A1"].PutValue("ВР");
         headerCell.SetStyle(CellStyles.SetFirstHeaderStyle(headerCell));
         _rawOffset++;
 
@@ -70,7 +70,7 @@ public class WindowsCutSheet
 
 
         worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 13);
-        worksheet.Cells["A" + _rawOffset].PutValue("Створки. Оптимизация распила");
+        worksheet.Cells["A" + _rawOffset].PutValue("ВР. Оптимизация распила");
         worksheet.Cells["A" + _rawOffset].SetStyle(CellStyles.SetFirstHeaderStyle(worksheet.Cells["A" + _rawOffset]));
         _rawOffset++;
 
@@ -114,11 +114,11 @@ public class WindowsCutSheet
             worksheet.Cells["K" + _rawOffset].SetStyle(
                 CellStyles.SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
 
-            worksheet.Cells["E" + _rawOffset].PutValue("45°");
+            worksheet.Cells["E" + _rawOffset].PutValue("90°");
             worksheet.Cells["E" + _rawOffset]
                 .SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["E" + _rawOffset]));
 
-            worksheet.Cells["F" + _rawOffset].PutValue("45°");
+            worksheet.Cells["F" + _rawOffset].PutValue("90°");
             worksheet.Cells["F" + _rawOffset]
                 .SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["F" + _rawOffset]));
             _rawOffset++;
@@ -181,5 +181,4 @@ public class WindowsCutSheet
         rawOffset++;
         _rawOffset = rawOffset;
     }
-    
 }

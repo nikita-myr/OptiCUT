@@ -9,7 +9,7 @@ public class FrameCutterViewModel: ViewModelBase
     public static int vsk213Amount;
     public static bool isNeedVsk214;
     public static int vsk214Amount;
-    public static ObservableCollection<Position> WhipFields { get; set; }
+    public static ObservableCollection<PositionField> PositionFields { get; set; }
 
     public bool IsNeedVsk213
     {
@@ -37,17 +37,17 @@ public class FrameCutterViewModel: ViewModelBase
     
     public FrameCutterViewModel()
     {
-        WhipFields = new ObservableCollection<Position>();
+        PositionFields = new ObservableCollection<PositionField>();
     }
 
     public void AddWhipFieldButton()
     {
-        WhipFields.Add(new Position());
+        PositionFields.Add(new PositionField());
     }
 
     public void RemoveWhipFieldButton()
     {
-        WhipFields?.Remove(WhipFields[^1]);
+        PositionFields?.Remove(PositionFields[^1]);
     }
     
     
