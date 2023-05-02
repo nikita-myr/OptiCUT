@@ -62,9 +62,13 @@
             </WrapPanel>
             <WrapPanel>
                 <CheckBox IsChecked="{Binding IsNeedVsk213}" Width="200">Поле для ВСК-213</CheckBox>
+                <TextBlock VerticalAlignment="Center">Кол-во:</TextBlock>
+                <TextBox Text="{Binding Vsk213Amount}" IsEnabled="{Binding IsNeedVsk213}"></TextBox>
             </WrapPanel>
             <WrapPanel>
                 <CheckBox IsChecked="{Binding IsNeedVsk214}" Width="200">Поле для ВСК-214</CheckBox>
+                <TextBlock VerticalAlignment="Center">Кол-во:</TextBlock>
+                <TextBox Text="{Binding Vsk214Amount}" IsEnabled="{Binding IsNeedVsk214}"></TextBox>
             </WrapPanel>
         </StackPanel>
     </ScrollViewer>

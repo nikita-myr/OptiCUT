@@ -14,19 +14,32 @@
     
     <StackPanel>
         <WrapPanel>
-            <Label Content="Имя файла:" Width="100" VerticalAlignment="Center"></Label>
-            <TextBox Text="{Binding FileName}" Width="450"></TextBox>
+            <Label Content="Имя файла распила:" Width="200" VerticalAlignment="Center"></Label>
+            <TextBox Text="{Binding SpecificationFileName}" Width="450"></TextBox>
         </WrapPanel>
         <WrapPanel>
-            <Label Content="Сгенерировать PDF?" Width="155" VerticalAlignment="Center"></Label>
+            <Label Content="Имя файла спецификации:" Width="200" VerticalAlignment="Center"></Label>
+            <TextBox Text="{Binding CutFileName}" Width="450"></TextBox>
+        </WrapPanel>
+        <WrapPanel>
+            <Label Content="Имя объекта:" Width="200" VerticalAlignment="Center"></Label>
+            <TextBox Text="{Binding ObjectLabel}" Width="450"></TextBox>
+        </WrapPanel>
+        <WrapPanel>
+            <Label Content="Имя витража:" Width="200" VerticalAlignment="Center"></Label>
+            <TextBox Text="{Binding ConstructionLabel}" Width="450"></TextBox>
+        </WrapPanel>
+        <WrapPanel>
+            <Label Content="Сгенерировать PDF?" Width="200" VerticalAlignment="Center"></Label>
             <CheckBox IsChecked="{Binding GeneratePdf}"></CheckBox>
         </WrapPanel>
         <WrapPanel>
-            <Label Content="Сохранить в: " Width="100" VerticalAlignment="Center"></Label>
+            <Label Content="Сохранить в: " Width="200" VerticalAlignment="Center"></Label>
             <TextBox Text="{Binding SaveDir}" Width="450"></TextBox>
             <Button Command="{Binding SelectSaveDirectoryButton}">Указать путь</Button>
         </WrapPanel>
         <WrapPanel HorizontalAlignment="Center">
+            <Button Command="{Binding GenerateSpecificationExcel}" Width="140" HorizontalAlignment="Center">СПЕЦИФИКАЦИЯ</Button>
             <Button Command="{Binding GenerateCutExcel}" Width="75" HorizontalAlignment="Center">РАСПИЛ</Button>
         </WrapPanel>
     </StackPanel>

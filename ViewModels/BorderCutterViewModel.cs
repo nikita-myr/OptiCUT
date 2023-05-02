@@ -4,22 +4,22 @@ namespace OptiCUT.ViewModels;
 
 public class BorderCutterViewModel: ViewModelBase
 {
-    private ObservableCollection<WhipField> WhipFields { get; set; }
+    public static ObservableCollection<Position> Positions { get; set; }
     
     public BorderCutterViewModel()
     {
-        WhipFields = new ObservableCollection<WhipField>{new WhipField()};
+        Positions = new ObservableCollection<Position>();
 
     }
 
     public void AddWhipFieldButton()
     {
-        WhipFields.Add(new WhipField());
+        Positions.Add(new Position());
     }
 
     public void RemoveWhipFieldButton()
     {
-        if(WhipFields.Count > 0) WhipFields.Remove(WhipFields[^1]);
+        if(Positions.Count > 0) Positions.Remove(Positions[^1]);
     }
     
 }

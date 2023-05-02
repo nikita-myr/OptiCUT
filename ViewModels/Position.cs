@@ -3,16 +3,17 @@ using OptiCUT.Models;
 
 namespace OptiCUT.ViewModels;
 
-public class WhipField : ViewModelBase
+public class Position
 {
     public Whip Whip { get; set; }
     public ObservableCollection<Detail> Details { get; set; }
 
-    public WhipField()
+    public Position()
     {
         Whip = new Whip();
         Details = new ObservableCollection<Detail>();
     }
+    
 
     public void AddDetailButton()
     {

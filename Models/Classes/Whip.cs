@@ -12,7 +12,6 @@ public class Whip
 
     public Whip(){}
 
-
     public Whip(string label, string color, int lenght, int sawWidth, int minLenghtRemain)
     {
         Label = label;

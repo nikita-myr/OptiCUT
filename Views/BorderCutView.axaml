@@ -14,7 +14,7 @@
     
     <ScrollViewer>
         <StackPanel>
-            <ItemsControl Items="{Binding WhipFields}">
+            <ItemsControl Items="{Binding Positions}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>

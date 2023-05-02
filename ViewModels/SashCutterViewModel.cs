@@ -4,17 +4,17 @@ namespace OptiCUT.ViewModels;
 
 public class SashCutterViewModel: ViewModelBase
 {
-    public static ObservableCollection<WhipField> WhipFields { get; set; }
+    public static ObservableCollection<Position> WhipFields { get; set; }
     
     public SashCutterViewModel()
     {
-        WhipFields = new ObservableCollection<WhipField>();
+        WhipFields = new ObservableCollection<Position>();
 
     }
 
     public void AddWhipFieldButton()
     {
-        WhipFields.Add(new WhipField());
+        WhipFields.Add(new Position());
     }
 
     public void RemoveWhipFieldButton()
