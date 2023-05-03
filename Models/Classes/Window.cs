@@ -31,7 +31,7 @@ public class Window
         OpenType = windowField.OpenType;
         IsNeedBrush = windowField.IsNeedBrush;
         Color = windowField.Color;
-        Glass = new Glass(windowField.Width, windowField.Height, windowField.GlassDepth, windowField.GlassLabel);
+        Glass = new Glass(windowField.Width-43, windowField.Height-43, windowField.GlassDepth, windowField.GlassLabel);
     }
     public Window(string label, int width, int height, int amount, string openSide,
         string openType, bool isNeedBrush, string color, int glassDepth)
@@ -45,7 +45,7 @@ public class Window
         OpenType = openType;
         IsNeedBrush = isNeedBrush;
         Color = color;
-        Glass = new Glass(width, height, glassDepth, label);
+        Glass = new Glass(width-43, height-43, glassDepth, label);
     }
 
 }

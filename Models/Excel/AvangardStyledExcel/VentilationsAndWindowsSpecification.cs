@@ -218,7 +218,7 @@ public class VentilationsAndWindowsSpecification
                     worksheet.Cells["H" + _rawOffset].SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["H" + _rawOffset]));
                 }
                 
-                /*worksheet.Cells["I" + _rawOffset].PutValue(window.Glass.Depth);
+                worksheet.Cells["I" + _rawOffset].PutValue(window.Glass.Depth);
                 worksheet.Cells["I" + _rawOffset].SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["I" + _rawOffset]));
                 
                 worksheet.Cells["K" + _rawOffset].PutValue(window.Glass.Height);
@@ -226,7 +226,7 @@ public class VentilationsAndWindowsSpecification
                 
                 worksheet.Cells["L" + _rawOffset].PutValue(window.Glass.Width);
                 worksheet.Cells["L" + _rawOffset].SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["L" + _rawOffset]));
-                */
+                
                 _rawOffset++;
             }
             

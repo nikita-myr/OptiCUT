@@ -124,15 +124,17 @@ public static class ExcelGenerator
     {
         ObservableCollection<Position> result = new ObservableCollection<Position>();
         ObservableCollection<Window> windows = GetWindows();
-        ObservableCollection<Detail> details = new ObservableCollection<Detail>();
-        foreach (var window in windows)
+        if (windows.Count > 0)
         {
-            details.Add(new Detail(window.Height, window.Amount * 2));
-            details.Add(new Detail(window.Width, window.Amount * 2));
-        }
+            ObservableCollection<Detail> details = new ObservableCollection<Detail>();
+            foreach (var window in windows)
+            {
+                details.Add(new Detail(window.Height, window.Amount * 2));
+                details.Add(new Detail(window.Width, window.Amount * 2));
+            }
 
-        result.Add(new Position(WindowsAndVentilationCutterViewModel.WhipField, details));
-        
+            result.Add(new Position(WindowsAndVentilationCutterViewModel.WhipField, details));
+        }
         return result;
     }
 
@@ -140,21 +142,25 @@ public static class ExcelGenerator
     {
         ObservableCollection<Position> result = new ObservableCollection<Position>();
         ObservableCollection<Ventilation> ventilations = GetVentilations();
-        ObservableCollection<Detail> vspDetails = new ObservableCollection<Detail>();
-        ObservableCollection<Detail> vsm086Details = new ObservableCollection<Detail>();
-        ObservableCollection<Detail> vsm085Details = new ObservableCollection<Detail>();
-        foreach (var ventilation in ventilations)
+        if (ventilations.Count != 0)
         {
-            vspDetails.Add(new Detail(ventilation.Height-63, ventilation.Amount*2));
-            vspDetails.Add(new Detail(ventilation.Width-33, ventilation.Amount*2));
-            vsm085Details.Add(new Detail(ventilation.Height-77, ventilation.Amount*2));
-            vsm085Details.Add(new Detail(ventilation.Width-43, ventilation.Amount*2));
-            vsm086Details.Add(new Detail(ventilation.Width-77, ventilation.Amount*3));
+            ObservableCollection<Detail> vspDetails = new ObservableCollection<Detail>();
+            ObservableCollection<Detail> vsm086Details = new ObservableCollection<Detail>();
+            ObservableCollection<Detail> vsm085Details = new ObservableCollection<Detail>();
+            foreach (var ventilation in ventilations)
+            {
+                vspDetails.Add(new Detail(ventilation.Height-63, ventilation.Amount*2));
+                vspDetails.Add(new Detail(ventilation.Width-33, ventilation.Amount*2));
+                vsm085Details.Add(new Detail(ventilation.Height-77, ventilation.Amount*2));
+                vsm085Details.Add(new Detail(ventilation.Width-43, ventilation.Amount*2));
+                vsm086Details.Add(new Detail(ventilation.Width-77, ventilation.Amount*3));
+            }
+        
+            result.Add(new Position(new Whip("ВСП-217",ventilations[0].Color, 6100, 5, 1), vspDetails));
+            result.Add(new Position(new Whip("ВС-М-085", ventilations[0].Color, 6100, 5, 1), vsm085Details));
+            result.Add(new Position(new Whip("ВС-М-086", ventilations[0].Color, 6100, 5, 1), vsm086Details));
         }
         
-        result.Add(new Position(new Whip("ВСП-217",ventilations[0].Color, 6100, 5, 1), vspDetails));
-        result.Add(new Position(new Whip("ВС-М-085", ventilations[0].Color, 6100, 5, 1), vsm085Details));
-        result.Add(new Position(new Whip("ВС-М-086", ventilations[0].Color, 6100, 5, 1), vsm086Details));
         
         return result;
     }

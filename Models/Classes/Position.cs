@@ -1,6 +1,4 @@
 using System.Collections.ObjectModel;
-using DynamicData;
-using OptiCUT.Models;
 using OptiCUT.ViewModels;
 
 namespace OptiCUT.Models;
