@@ -9,7 +9,8 @@ public class VentilationCutSheet
 {
     private static int _rawOffset;
 
-    public static void GenerateSheet(Workbook workbook, ObservableCollection<Position> positions)
+    public static void GenerateSheet(Workbook workbook, ObservableCollection<Position> positions,
+                                    string objectLabel = "объект", string constructionLabel = "В-X")
     {
         _rawOffset = 1;
 
@@ -100,6 +101,7 @@ public class VentilationCutSheet
 
         worksheet.PageSetup.FitToPagesWide = 1;
         worksheet.PageSetup.PrintArea = $"A1:M{_rawOffset}";
+        worksheet.PageSetup.SetHeader(1, $"{objectLabel} {constructionLabel}");
     }
 
     private static void GetDetails(Worksheet worksheet, ObservableCollection<Detail> details)

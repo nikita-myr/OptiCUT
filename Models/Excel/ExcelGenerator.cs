@@ -13,7 +13,7 @@ public static class ExcelGenerator
     /// </summary>
 
     public static void GenerateCutterExcelFile(string? saveDirectory, string fileName = "CutResult",
-        string fileType = ".xlsx", bool makePdf = false)
+        string fileType = ".xlsx", bool makePdf = false, string objectLabel="Объект", string constructionLabel = "В-x")
     {
         Workbook workbook = new Workbook();
 
@@ -25,11 +25,11 @@ public static class ExcelGenerator
 
         //Check is data exist, if true add to worksheet and data to file 
         if (frameWhips.Count != 0) FrameCutSheet.GenerateSheet(workbook, frameWhips,
-            FrameCutterViewModel.isNeedVsk213, FrameCutterViewModel.isNeedVsk214);
-        if (sashWhips.Count != 0) SashCutSheet.GenerateSheet(workbook, sashWhips);
-        if(borderWhips.Count != 0) BordersCutSheet.GenerateSheet(workbook, borderWhips);
-        if(ventilationWhips.Count != 0) VentilationCutSheet.GenerateSheet(workbook, ventilationWhips);
-        if (windowWhips.Count != 0) WindowsCutSheet.GenerateSheet(workbook, windowWhips);
+            FrameCutterViewModel.isNeedVsk213, FrameCutterViewModel.isNeedVsk214, objectLabel, constructionLabel);
+        if (sashWhips.Count != 0) SashCutSheet.GenerateSheet(workbook, sashWhips, objectLabel, constructionLabel);
+        if(borderWhips.Count != 0) BordersCutSheet.GenerateSheet(workbook, borderWhips, objectLabel, constructionLabel);
+        if(ventilationWhips.Count != 0) VentilationCutSheet.GenerateSheet(workbook, ventilationWhips, objectLabel, constructionLabel);
+        if (windowWhips.Count != 0) WindowsCutSheet.GenerateSheet(workbook, windowWhips, objectLabel, constructionLabel);
 
 
             workbook.CalculateFormula();
@@ -156,9 +156,9 @@ public static class ExcelGenerator
                 vsm086Details.Add(new Detail(ventilation.Width-77, ventilation.Amount*3));
             }
         
-            result.Add(new Position(new Whip("ВСП-217",ventilations[0].Color, 6100, 5, 1), vspDetails));
-            result.Add(new Position(new Whip("ВС-М-085", ventilations[0].Color, 6100, 5, 1), vsm085Details));
-            result.Add(new Position(new Whip("ВС-М-086", ventilations[0].Color, 6100, 5, 1), vsm086Details));
+            result.Add(new Position(new Whip("ВСП-217",ventilations[0].Color, 6000, 5, 0), vspDetails));
+            result.Add(new Position(new Whip("ВС-М-085", ventilations[0].Color, 6000, 5, 0), vsm085Details));
+            result.Add(new Position(new Whip("ВС-М-086", ventilations[0].Color, 6000, 5, 0), vsm086Details));
         }
         
         

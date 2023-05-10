@@ -11,7 +11,7 @@ public class FrameCutSheet
     private static int _rawOffset;
     
     public static void GenerateSheet(Workbook workbook, ObservableCollection<Position> whipFields , 
-        bool isNeedVsk213 = false, bool isNeedVsk214 = false)
+        bool isNeedVsk213 = false, bool isNeedVsk214 = false, string objectLabel = "объект", string constructionLabel = "В-X")
     {
         _rawOffset = 1;
         
@@ -109,6 +109,7 @@ public class FrameCutSheet
 
         worksheet.PageSetup.FitToPagesWide = 1;
         worksheet.PageSetup.PrintArea = $"A1:M{_rawOffset}";
+        worksheet.PageSetup.SetHeader(1, $"{objectLabel} {constructionLabel}");
     }
     
      private static void WriteVsk213Fields(Worksheet worksheet, int detailsAmount)

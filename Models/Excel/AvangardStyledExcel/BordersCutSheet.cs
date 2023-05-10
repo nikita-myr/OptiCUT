@@ -10,7 +10,8 @@ public class BordersCutSheet
 {
     private static int _rawOffset;
 
-    public static void GenerateSheet(Workbook workbook, ObservableCollection<Position> whipFields)
+    public static void GenerateSheet(Workbook workbook, ObservableCollection<Position> whipFields, 
+                                    string objectLabel, string constructionLabel)
     {
         _rawOffset = 1;
 
@@ -101,6 +102,7 @@ public class BordersCutSheet
 
         worksheet.PageSetup.FitToPagesWide = 1;
         worksheet.PageSetup.PrintArea = $"A1:M{_rawOffset}";
+        worksheet.PageSetup.SetHeader(1, $"{objectLabel} {constructionLabel}");
     }
 
     private static void GetDetails(Worksheet worksheet, ObservableCollection<Detail> details)
@@ -117,11 +119,11 @@ public class BordersCutSheet
 
             worksheet.Cells["E" + _rawOffset].PutValue("см. чертеж");
             worksheet.Cells["E" + _rawOffset]
-                .SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["E" + _rawOffset]));
+                .SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["E" + _rawOffset], fontSize:9));
 
             worksheet.Cells["F" + _rawOffset].PutValue("см. чертеж");
             worksheet.Cells["F" + _rawOffset]
-                .SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["F" + _rawOffset]));
+                .SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["F" + _rawOffset], fontSize:9));
             _rawOffset++;
         }
     }

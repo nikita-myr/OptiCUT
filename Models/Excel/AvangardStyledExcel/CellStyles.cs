@@ -37,7 +37,7 @@ public class CellStyles
     {
         CellsColor cellsColor = workbook.CreateCellsColor();
         
-        Range range = worksheet.Cells.CreateRange(0, 0, rawOffset, 13);
+        Range range = worksheet.Cells.CreateRange(0, 0, rawOffset-1, 13);
         
         range.SetInsideBorders(BorderType.Vertical, CellBorderType.Thin, cellsColor);
         range.SetInsideBorders(BorderType.Horizontal, CellBorderType.Thin, cellsColor);

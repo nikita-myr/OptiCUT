@@ -9,7 +9,8 @@ public class WindowsCutSheet
 {
     private static int _rawOffset;
 
-    public static void GenerateSheet(Workbook workbook, ObservableCollection<Position> positions)
+    public static void GenerateSheet(Workbook workbook, ObservableCollection<Position> positions,
+                                    string objectLabel = "объект", string constructionLabel = "В-X")
     {
         _rawOffset = 1;
 
@@ -66,6 +67,10 @@ public class WindowsCutSheet
             worksheet.Cells["K" + _rawOffset].SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
             _rawOffset++;
         }
+        
+        WriteVSK009(worksheet, GetDetailsAmount(positions));
+        
+        
 
 
 
@@ -100,6 +105,20 @@ public class WindowsCutSheet
 
         worksheet.PageSetup.FitToPagesWide = 1;
         worksheet.PageSetup.PrintArea = $"A1:M{_rawOffset}";
+        worksheet.PageSetup.SetHeader(1, $"{objectLabel} {constructionLabel}");
+    }
+
+    private static int GetDetailsAmount(ObservableCollection<Position> positions)
+    {
+        int result = 0;
+        foreach (var position in positions)
+        {
+            foreach (var detail in position.Details)
+            {
+                result += detail.Amount;
+            }
+        }
+        return result;
     }
 
     private static void GetDetails(Worksheet worksheet, ObservableCollection<Detail> details)
@@ -180,6 +199,44 @@ public class WindowsCutSheet
         worksheet.Cells["L" + rawOffset].SetStyle(style: CellStyles.SetBasicCellStyle(worksheet.Cells["L" + rawOffset]));
         rawOffset++;
         _rawOffset = rawOffset;
+    }
+    
+    private static void WriteVSK009(Worksheet worksheet, int detailsAmount)
+    {
+        worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 13);
+        worksheet.Cells["A" + _rawOffset]
+            .PutValue($"Соед. стоечный ВС-К-009, без");
+        worksheet.Cells["A" + _rawOffset]
+            .SetStyle(
+                CellStyles.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true, isColored: true));
+        _rawOffset++;
+
+        int startRowOffset = _rawOffset;
+
+        worksheet.Cells["C" + _rawOffset].PutValue("27,2");
+        worksheet.Cells["C" + _rawOffset].SetStyle(
+            CellStyles.SetBasicCellStyle(worksheet.Cells["C" + _rawOffset]));
+
+        worksheet.Cells["K" + _rawOffset].PutValue(detailsAmount);
+        worksheet.Cells["K" + _rawOffset].SetStyle(
+            CellStyles.SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
+
+        worksheet.Cells["E" + _rawOffset].PutValue("90°");
+        worksheet.Cells["E" + _rawOffset]
+            .SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["E" + _rawOffset]));
+
+        worksheet.Cells["F" + _rawOffset].PutValue("90°");
+        worksheet.Cells["F" + _rawOffset]
+            .SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["F" + _rawOffset]));
+        _rawOffset++;
+
+        worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 9);
+        worksheet.Cells["J" + _rawOffset].PutValue("Итого:");
+        worksheet.Cells["K" + _rawOffset].Formula = $"=SUM(K{startRowOffset}:K{_rawOffset - 1})";
+        worksheet.Cells["K" + _rawOffset].SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["K" + _rawOffset]));
+        _rawOffset++;
+        
+        
     }
     
 }

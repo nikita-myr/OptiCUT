@@ -10,7 +10,8 @@ public class SashCutSheet
 {
     private static int _rawOffset;
 
-    public static void GenerateSheet(Workbook workbook, ObservableCollection<Position> whipFields)
+    public static void GenerateSheet(Workbook workbook, ObservableCollection<Position> whipFields,
+                                    string objectLabel = "объект", string constructionLabel = "В-X")
     {
         _rawOffset = 1;
 
@@ -51,7 +52,7 @@ public class SashCutSheet
         {
             worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 13);
             worksheet.Cells["A" + _rawOffset]
-                .PutValue($"{whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
+                .PutValue($"{whipField.Whip.Label}, {whipField.Whip.Color} (хлыст {whipField.Whip.Lenght} мм)");
             worksheet.Cells["A" + _rawOffset]
                 .SetStyle(
                     CellStyles.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true, isColored: true));
@@ -87,7 +88,7 @@ public class SashCutSheet
 
             worksheet.Cells.Merge(_rawOffset - 1, 0, 1, 10);
             worksheet.Cells["A" + _rawOffset]
-                .PutValue($"{whipField.Whip.Label}, {whipField.Whip.Color} (хлысь {whipField.Whip.Lenght} мм)");
+                .PutValue($"{whipField.Whip.Label}, {whipField.Whip.Color} (хлыст {whipField.Whip.Lenght} мм)");
             worksheet.Cells["A" + _rawOffset]
                 .SetStyle(CellStyles.SetBasicCellStyle(worksheet.Cells["A" + _rawOffset], isBold: true));
             _rawOffset++;
@@ -101,6 +102,7 @@ public class SashCutSheet
 
         worksheet.PageSetup.FitToPagesWide = 1;
         worksheet.PageSetup.PrintArea = $"A1:M{_rawOffset}";
+        worksheet.PageSetup.SetHeader(1, $"{objectLabel} {constructionLabel}");
     }
 
     private static void GetDetails(Worksheet worksheet, ObservableCollection<Detail> details)
