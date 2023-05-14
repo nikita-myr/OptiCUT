@@ -1,20 +1,54 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:OptiCUT.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:OptiCUT.Views"
+        xmlns:viewModels="clr-namespace:OptiCUT.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="OptiCUT.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="OptiCUT">
+        Icon="/Assets/Logo/logo-color.png"
+        Title="OptiCUT"
+
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <viewModels:MainWindowViewModel/>
     </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    
+    <Panel>
+        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    TintColor="Black"
+                    TintOpacity="1"
+                    MaterialOpacity="0.65" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        
+        <Grid>
+            <TabControl>
+                <TabItem Header="Каркас">
+                    <views:FrameCutView/>
+                </TabItem>
+                <TabItem Header="Штапики">
+                    <views:SashCutterView/>
+                </TabItem>
+                <TabItem Header="Створки и ВР">
+                    <views:WindowsAndVentilationCutView/>
+                </TabItem>
+                <TabItem Header="Ограждения">
+                    <views:BorderCutView/>
+                </TabItem>
+                <TabItem Header="Настройки">
+                    <views:SettingsView/>
+                </TabItem>
+            </TabControl>
+        </Grid>
+        
+        
+    </Panel>
 </Window>

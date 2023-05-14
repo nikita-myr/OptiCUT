@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="OptiCUT/App.axaml" value="OptiCUT/OptiCUT.csproj" />
         <entry key="OptiCUT/Views/MainWindow.axaml" value="OptiCUT/OptiCUT.csproj" />
       </map>
     </option>
