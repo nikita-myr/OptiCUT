@@ -1,0 +1,33 @@
+﻿<Properties StartupConfiguration="{B5BD0835-490A-4AF3-BC2D-FD9CEDDE33E7}|Default">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Views/MainWindow.axaml">
+    <Files>
+      <File FileName="Views/MainWindow.axaml" Line="24" Column="45" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="OptiCUT" expanded="True">
+            <Node name="OptiCUT" expanded="True">
+              <Node name="Models" expanded="True">
+                <Node name="Excel" expanded="True">
+                  <Node name="AvangardStyledExcel" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="ViewModels" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="MainWindow.axaml" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.OptiCUT PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

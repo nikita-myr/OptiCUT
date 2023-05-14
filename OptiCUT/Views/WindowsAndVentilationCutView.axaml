@@ -1,0 +1,98 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:OptiCUT.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="OptiCUT.Views.WindowsAndVentilationCutView">
+    
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <viewModels:WindowsAndVentilationCutterViewModel/>
+    </Design.DataContext>
+    
+    
+    <ScrollViewer>
+        <StackPanel>
+            <ItemsControl Items="{Binding VentilationsFields}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <WrapPanel>
+                                <Label Content="Маркировка" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Ширина" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Высота" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Кол-во" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Цвет" Width="100" HorizontalContentAlignment="Center"></Label>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBox Text="{Binding Label}" Width="100"></TextBox>
+                                <TextBox Text="{Binding Width}" Width="100"></TextBox>
+                                <TextBox Text="{Binding Height}" Width="100"></TextBox>
+                                <TextBox Text="{Binding Amount}" Width="100"></TextBox>
+                                <TextBox Text="{Binding Color}" Width="100"></TextBox>
+                            </WrapPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <WrapPanel>
+                <Button Command="{Binding AddVentilationButton}">Добавить вент. решетку</Button>
+                <Button Command="{Binding RemoveVentilationButton}">Удалить вент. решетку</Button>
+            </WrapPanel>
+            <WrapPanel>
+                <Label Content="Профиль" Width="100" HorizontalAlignment="Center"></Label>
+                <Label Content="Цвет" Width="100" HorizontalAlignment="Center"></Label>
+                <Label Content="Длинна" Width="100" HorizontalAlignment="Center"></Label>
+                <Label Content="Ширина реза" Width="100" HorizontalAlignment="Center"></Label>
+                <Label Content="Мин. остаток" Width="100" HorizontalAlignment="Center"></Label>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBox Text="{Binding WhipField.Label}" Width="100"></TextBox>
+                <TextBox Text="{Binding WhipField.Color}" Width="100"></TextBox>
+                <TextBox Text="{Binding WhipField.Lenght}" Width="100"></TextBox>
+                <TextBox Text="{Binding WhipField.SawWidth}" Width="100"></TextBox>
+                <TextBox Text="{Binding WhipField.MinLenghtRemain}" Width="100"></TextBox>
+            </WrapPanel>
+            <ItemsControl Items="{Binding WindowsFields}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <WrapPanel>
+                                <Label Content="Маркировка" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Ширина" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Высота" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Кол-во" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Левое/Правое" Width="110" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Пов/Пов-отк" Width="110" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Гребенка" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Цвет" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Марк. стекла" Width="100" HorizontalContentAlignment="Center"></Label>
+                                <Label Content="Толщ. стекла" Width="100" HorizontalContentAlignment="Center"></Label>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBox Text="{Binding Label}" Width="100"></TextBox>
+                                <TextBox Text="{Binding Width}" Width="100"></TextBox>
+                                <TextBox Text="{Binding Height}" Width="100"></TextBox>
+                                <TextBox Text="{Binding Amount}" Width="100"></TextBox>
+                                <TextBox Text="{Binding OpenSide}" Width="110"></TextBox>
+                                <TextBox Text="{Binding OpenType}" Width="110"></TextBox>
+                                <CheckBox IsChecked="{Binding IsNeedBrush}" HorizontalAlignment="Center" Width="100"></CheckBox>
+                                <TextBox Text="{Binding Color}" Width="100"></TextBox>
+                                <TextBox Text="{Binding GlassLabel}" Width="100"></TextBox>
+                                <TextBox Text="{Binding GlassDepth}" Width="100"></TextBox>
+                            </WrapPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <WrapPanel>
+                <Button Command="{Binding AddWindowButton}">Добавить створку</Button>
+                <Button Command="{Binding RemoveWindowButton}">Удалить створку</Button>
+            </WrapPanel>
+        </StackPanel>
+        
+    </ScrollViewer>
+    
+</UserControl>
